@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5291);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #FFDD57;
+            text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+            padding: 12px 18px;
+            border-radius: 25px;
+            display: inline-block;
+        }
+
+        nav ul li a:hover {
+            background: white;
+            color: #2a5291;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.6);
+        }
+
+        .play-button {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 15px 40px;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #2a5291;
+            background: #ffdd57;
+            border-radius: 30px;
+            box-shadow: 0 6px 12px rgba(255, 221, 87, 0.3);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .play-button:hover {
+            background: #ffbb33;
+            transform: scale(1.1);
+            box-shadow: 0 8px 18px rgba(255, 187, 51, 0.4);
+        }
+
+        .logout-btn {
+            margin-top: 25px;
+            padding: 14px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #ff3b3b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .logout-btn:hover {
+            background-color: darkred;
+            transform: scale(1.05);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+            color: #fff;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the Memory Game</h1>
+    <p>Challenge your memory and find the matching pairs!</p>
+
+    <nav>
+        <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/how-to-play">How to Play</a></li>
+            <li><a href="/profile">Profile</a></li>
+        </ul>
+    </nav>
+
+    <a href="/game" class="play-button">🎮 Play Now</a>
+
+    <form action="/logout" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+
+    <footer>
+        <p>&copy; This Game designed and developed by Sai Kalyan.</p>
+    </footer>
+
+</body>
+</html>

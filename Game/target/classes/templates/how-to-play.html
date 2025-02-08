@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Play | Memory Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50, #34495e); /* Dark blue gradient background */
+            color: #fff; /* White text for contrast */
+            text-align: center;
+            padding: 20px;
+        }
+
+        .how-to-container {
+            max-width: 600px;
+            background: #ffffff; /* White background for the card */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2); /* Soft shadow for better contrast */
+            text-align: left;
+            color: #333; /* Dark text color for better readability */
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #ff5722; /* Vibrant title color */
+            font-weight: 700;
+        }
+
+        .instructions {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            color: #444; /* Darker text color for readability */
+        }
+
+        .instructions p {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon {
+            font-size: 24px;
+            color: #ff9800; /* Orange icons for emphasis */
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 18px;
+            background: #ff6f61; /* Soft coral button color */
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #ff3b2a;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .how-to-container {
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .instructions p {
+                font-size: 16px;
+            }
+
+            .back-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="how-to-container">
+        <h2>How to Play the Memory Game</h2>
+        <div class="instructions">
+            <p><span class="icon">🎮</span> Click on any card to flip it over and reveal its image.</p>
+            <p><span class="icon">🔄</span> Try to match pairs of identical images.</p>
+            <p><span class="icon">⏱️</span> Complete the game in the shortest time possible to score high!</p>
+            <p><span class="icon">⚡</span> Challenge your memory and improve your focus as you play!</p>
+        </div>
+        <a href="/home" class="back-btn">Back to Home</a>
+    </div>
+
+</body>
+</html>

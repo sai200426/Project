@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Maze Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Stack elements vertically */
+            height: 100vh;
+            background: linear-gradient(to top, #f5f7fa, #c3cfe2); /* Light gradient background */
+        }
+
+        .caption {
+    margin-bottom: 20px;
+    color: #333; /* Darker color */
+    font-size: 18px;
+    font-weight: bold; /* Make the text bold */
+    text-align: center;
+}
+
+        .login-container {
+            background: #2a5298; /* Dark background for the card */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 360px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #ffb84d; /* Focus effect */
+            outline: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ffb84d; /* Button color */
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background: #e5a200; /* Hover effect for button */
+            transform: scale(1.05);
+        }
+
+        .register-link {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .register-link a {
+            color: #ffb84d;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="caption">Login to test your memory</div> <!-- Caption placed on top of the card -->
+
+    <div class="login-container">
+        <h2>Login</h2>
+
+        <!-- Display error message if login fails -->
+        <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+
+        <form action="/login" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+
+        <p class="register-link">Don't have an account? <a href="/register">Sign up</a></p>
+    </div>
+
+</body>
+</html>

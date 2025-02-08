@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Matching Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            text-align: center;
+            background: linear-gradient(to right, #3b8d99, #6b9e8f);
+            color: white;
+            position: relative;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 32px;
+        }
+
+        .score {
+            font-size: 24px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #c8e6c9;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: transparent;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        }
+
+        .card.flipped {
+            color: #000;
+            background-color: #ffee58;
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            background-color: #66bb6a;
+            color: #fff;
+            cursor: default;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: red;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 10px;
+            transition: 0.3s ease-in-out;
+        }
+
+        a:hover {
+            background: darkred;
+        }
+
+        #message {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* Pop-up message style */
+        .popup-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px 40px;
+            background-color: #66bb6a; /* Green matching the game background */
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            animation: popupAnimation 1s forwards;
+        }
+
+        @keyframes popupAnimation {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Memory Matching Game</h2>
+    <p>Click on the cards to reveal them. Try to match pairs!</p>
+
+    <div class="score">Score: <span id="score">1000</span></div>
+    <p id="message"></p>
+
+    <div class="game-board" id="game-board"></div>
+
+    <button onclick="startGame()">🔄 Restart Game</button>
+
+    <br><br>
+    <a href="/home">🏠 Back to Home</a>
+
+    <!-- Pop-up message -->
+    <div class="popup-message" id="popup-message">🎉 You won! Final Score: 1000</div>
+
+    <script>
+        const cardValues = ['🍎', '🍌', '🍒', '🍓', '🍉', '🍊', '🍍', '🍎', '🍌', '🍒', '🍓', '🍉', '🍊', '🍍'];
+
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let score = 1000;
+        let isProcessing = false;
+
+        function startGame() {
+            cards = shuffle([...cardValues]);
+            matchedPairs = 0;
+            flippedCards = [];
+            score = 1000;
+            isProcessing = false;
+            document.getElementById("score").innerText = score;
+            document.getElementById("message").innerText = "";
+
+            const gameBoard = document.getElementById("game-board");
+            gameBoard.innerHTML = "";
+            
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement("div");
+                cardElement.classList.add("card");
+                cardElement.setAttribute("data-index", index);
+                cardElement.addEventListener("click", flipCard);
+                gameBoard.appendChild(cardElement);
+            });
+        }
+
+        function flipCard(event) {
+            if (isProcessing) return; // Prevent multiple clicks while checking
+
+            const clickedCard = event.target;
+            if (clickedCard.classList.contains("flipped") || flippedCards.length === 2) return;
+
+            const cardIndex = clickedCard.getAttribute("data-index");
+            clickedCard.classList.add("flipped");
+            clickedCard.innerText = cards[cardIndex];
+
+            flippedCards.push(clickedCard);
+
+            if (flippedCards.length === 2) {
+                isProcessing = true;
+                setTimeout(checkForMatch, 800);
+            }
+        }
+
+        function checkForMatch() {
+            if (flippedCards[0].innerText === flippedCards[1].innerText) {
+                flippedCards.forEach(card => card.classList.add("matched"));
+                matchedPairs++;
+
+                if (matchedPairs === cardValues.length / 2) {
+                    setTimeout(() => {
+                        // Pop-up win message with animation
+                        showPopupMessage();
+
+                        // Update the high score
+                        updateHighScore(score);
+                    }, 500);
+                }
+            } else {
+                score -= 10;
+                document.getElementById("score").innerText = score;
+
+                flippedCards.forEach(card => {
+                    card.classList.remove("flipped");
+                    card.innerText = "";
+                });
+            }
+            flippedCards = [];
+            isProcessing = false;
+        }
+
+        function updateHighScore(finalScore) {
+            fetch("/update-score", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ score: finalScore })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("message").innerText += ` (${data.message})`;
+            })
+            .catch(error => console.error("Error updating score:", error));
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function showPopupMessage() {
+            const popup = document.getElementById("popup-message");
+            popup.innerText = `🎉 You won! Final Score: ${score}`;
+            popup.style.display = 'block';
+
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 10000); // Hide after 6 seconds
+        }
+
+        startGame();
+    </script>
+
+</body>
+</html>

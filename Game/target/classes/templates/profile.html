@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Memory Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        .content-wrapper {
+            text-align: center;
+        }
+
+        .welcome-message {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .profile-container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
+            max-width: 450px;
+            width: 100%;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .profile-info p {
+            font-size: 18px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #555;
+        }
+
+        .icon {
+            font-size: 24px;
+            color: #ff9800;
+        }
+
+        .score-box {
+            background: #e0e0e0;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .score-box p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d2d2d;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-update {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-update:hover {
+            background: #2980b9;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            font-size: 18px;
+            background: #ff5722;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #e64a19;
+            transform: scale(1.05);
+        }
+
+        /* Delete Confirmation */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: black;
+        }
+
+        .popup button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .confirm-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #95a5a6;
+            color: white;
+        }
+
+        /* Update Form */
+        .update-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .update-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .update-form button {
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .update-form button:hover {
+            background: #219150;
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                padding: 25px;
+            }
+
+            h2 {
+                font-size: 26px;
+            }
+
+            .profile-info p {
+                font-size: 16px;
+            }
+
+            .score-box p {
+                font-size: 20px;
+            }
+
+            .back-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="content-wrapper">
+        <div class="welcome-message">
+            Welcome, <span th:text="${user.name}"></span>!
+        </div>
+
+        <div class="profile-container">
+            <h2>My Profile</h2>
+            <div class="profile-info">
+                <p><span class="icon">👤</span> <strong>Name:</strong> <span th:text="${user.name}"></span></p>
+                <p><span class="icon">📧</span> <strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            </div>
+
+            <div class="score-box">
+                <p>🏆 High Score: <span th:text="${user.highScore}"></span></p>
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-update" onclick="showUpdateForm()">Update</button>
+                <button class="btn btn-delete" onclick="showDeletePopup()">Delete</button>
+            </div>
+
+            <!-- Update Form -->
+            <form class="update-form" id="updateForm" action="/updateProfile" method="post">
+                <input type="text" name="name" placeholder="Enter new name" required>
+                <button type="submit">Update Name</button>
+            </form>
+
+            <!-- Delete Confirmation Popup -->
+            <div class="popup" id="deletePopup">
+                <p>Are you sure you want to delete your account?</p>
+                <button class="confirm-btn" onclick="deleteAccount()">Confirm</button>
+                <button class="cancel-btn" onclick="hideDeletePopup()">Cancel</button>
+            </div>
+
+            <a href="/home" class="back-btn">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        function showDeletePopup() {
+            document.getElementById("deletePopup").style.display = "block";
+        }
+
+        function hideDeletePopup() {
+            document.getElementById("deletePopup").style.display = "none";
+        }
+
+        function deleteAccount() {
+            fetch('/deleteAccount', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({}) // Send an empty body or any necessary data
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/login'; // Redirect to login page after deletion
+                } else {
+                    alert('Error deleting account');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function showUpdateForm() {
+            document.getElementById("updateForm").style.display = "block"; // Show update form
+        }
+    </script>
+
+</body>
+
+</html>
